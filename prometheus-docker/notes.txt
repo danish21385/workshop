@@ -1,0 +1,33 @@
+
+#this will run node exporter as docker container and expose the metrics of the 
+#VM which is running the container.
+# It uses host network so no need to expose port. will be accessed using vm private ip
+
+docker run -d \
+  --name node_exporter \
+  --network host \
+  --pid=host \
+  -v "/proc:/host/proc:ro" \
+  -v "/sys:/host/sys:ro" \
+  -v "/:/rootfs:ro" \
+  prom/node-exporter:latest \
+  --path.procfs=/host/proc \
+  --path.rootfs=/rootfs \
+  --path.sysfs=/host/sys \
+  --collector.filesystem.mount-points-exclude='^/(sys|proc|dev|host|etc)($$|/)'
+
+#verfiy in the browser
+http://192.168.111.129:9100/metrics
+
+
+#after running the above, add it as a job in prometheus.yaml
+
+  - job_name: 'host_node'
+    static_configs:
+      - targets: ['192.168.111.129:9100']
+
+
+
+#reload prometheus config without docker compose down
+
+curl -X POST http://localhost:9090/-/reload
