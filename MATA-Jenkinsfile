@@ -1,0 +1,63 @@
+def DEFAULT_TARGET_HOST = '--SELECT VALUE--'
+def DOCKER_REGISTRY = 'vmregistry.srt-development.network'
+def PROMETHEUS_IMAGE = 'prom/prometheus'
+def ALERTMANAGER_IMAGE = 'prom/alertmanager'
+pipeline {
+  agent {
+    docker {
+      image 'vmregistry.srt-development.network/geovs-shell-scripts'
+      alwaysPull true
+    }
+  }
+  parameters {
+    choice(
+      name: 'targethost',
+      description: 'Select the environment to deploy MATA to',
+      // These have to exactly match the files in deploy/known-hosts/
+      choices: [
+        DEFAULT_TARGET_HOST,
+        'mata.srt-development.network',
+        'mata-asgard.srt-development.network'
+      ]
+    )
+  }
+  environment {
+    SSH_KEY = credentials('jenkins-deploy')
+  }
+  stages {
+    stage("Unit Tests (Alert Rules)") {
+      steps {
+        sh """
+          source deploy/bom.env
+          for file in "conf/prometheus-rule-files/test/"*.yml; do
+            docker run --rm -v \$(pwd):/prometheus --entrypoint=promtool \
+              ${DOCKER_REGISTRY}/${PROMETHEUS_IMAGE}:\$MATA_PROMETHEUS_IMAGE_TAG \
+              test rules /prometheus/conf/prometheus-rule-files/test/\$(basename "\$file")
+          done
+        """
+      }
+    }
+    stage("Check Alertmanager") {
+      steps {
+        sh """
+          source deploy/bom.env
+          docker run --rm -v \$(pwd):/alertmanager --entrypoint=amtool \
+              ${DOCKER_REGISTRY}/${ALERTMANAGER_IMAGE}:\$MATA_ALERTMANAGER_IMAGE_TAG \
+              check-config /etc/alertmanager/alertmanager.yml
+        """
+      }
+    }
+    stage("Deploy") {
+      when {
+        expression { return params.targethost != DEFAULT_TARGET_HOST }
+      }
+      steps {
+        sh 'git stash --all --include-untracked' // Remove any loose files
+        sh (
+          label: "Deploying to ${params.targethost}",
+          script: "deploy/remote-up ${params.targethost}"
+        )
+      }
+    }
+  }
+}
