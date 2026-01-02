@@ -1,0 +1,62 @@
+REMOTE UP
+#!/bin/bash
+
+set -e
+
+STARTDIR=$(pwd)
+SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+BASEDIR=$(dirname "$SCRIPTDIR")
+
+# This guarantees working directory is the project base directory
+cd $BASEDIR
+
+SSH_USER=srtadmin
+TARGET_HOST=$1
+WORKING_DIR=/opt/mata
+
+source tools/ssh-options
+
+# Copy these and ONLY these files
+mapfile -t FILELIST < $BASEDIR/filelist.deploy
+FILELIST=(
+  "deploy/known-hosts/$1.*"
+  "${FILELIST[@]}"
+)
+
+echo Copying scripts to $1...
+if rsync --version > /dev/null; then
+  echo "Using rsync.."
+  # -R preserves the directory layout
+  rsync -e "ssh $SSH_OPTS" -phzrR --delete ${FILELIST[@]} $SSH_USER@$TARGET_HOST:$WORKING_DIR
+else
+  echo "Using scp..."
+  for file in "${FILELIST[@]}"; do
+    echo "copying $file..."
+    # No way to preserve dir layout with scp so copying one file at a time
+    dir_structure=$(dirname "$file")
+    ssh $SSH_OPTS $SSH_USER@$TARGET_HOST "mkdir -p $WORKING_DIR/$dir_structure"
+    scp $SSH_OPTS -BCpqr $file $SSH_USER@$TARGET_HOST:$WORKING_DIR/$dir_structure
+  done
+fi
+
+echo Deploying...
+ssh $SSH_OPTS $SSH_USER@$TARGET_HOST "cd $WORKING_DIR; chmod +x --quiet up down; ./up"
+
+# Go back to initial dir
+cd $STARTDIR
+
+---------------------------------------------------------------------------
+REMOTE-DOWN
+#!/bin/bash
+
+SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+BASEDIR=$(dirname "$SCRIPTDIR")
+
+SSH_USER=srtadmin
+TARGET_HOST=$1
+WORKING_DIR=/opt/mata
+
+source $BASEDIR/tools/ssh-options
+
+ssh $SSH_OPTS $SSH_USER@$TARGET_HOST "cd $WORKING_DIR; ./down"
+
