@@ -14,20 +14,12 @@ scrape_configs:
   - job_name: 'avd'
     static_configs:
       - targets:
-          - vmadrwinsrvneur:9182
-          - vmaipwinsrvneur:9182
-          - vmaqlwinsrvneur:9182
-          - vmaviwinsrvneur:9182
-          - vmblgwinsrvneur:9182
-          - vmdeuwinsrvneur:9182
-          - vmdnywinsrvneur:9182
-          - vmfpgwinsrvneur:9182
-          - vmhrawinsrvneur:9182
-          - vmjlpswinsrvneur:9182
-          - vmkaywinsrvneur:9182
-          - vmlsrwinsrvneur:9182
-          - vmprswinsrvneur:9182
-          - vmskwwinsrvneur:9182
+          - vma1insrvneur:9182
+          - vm2winsrvneur:9182
+          - vm3winsrvneur:9182
+          - vm4winsrvneur:9182
+          - vm5winsrvneur:9182
+
     relabel_configs:
       - source_labels: [__address__]
         target_label: instance
