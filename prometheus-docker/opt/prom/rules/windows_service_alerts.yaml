@@ -1,0 +1,15 @@
+groups:
+- name: windows_service_alerts
+  rules:
+  - alert: WindowsSpoolerStopped
+    expr: windows_service_state{
+            instance="vmhrawinsrvneur",
+            name="Spooler",
+            state="running"
+          } == 0
+    for: 2m
+    labels:
+      severity: critical
+    annotations:
+      summary: "Spooler service stopped on vmhrawinsrvneur"
+      description: "The Windows Print Spooler service is not running on vmhrawinsrvneur."
