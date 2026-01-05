@@ -1,0 +1,401 @@
+Branch indexing
+ > git rev-parse --resolve-git-dir /var/lib/jenkins/caches/git-c3999e769e5d1177a6f87434f811d866/.git # timeout=10
+Setting origin to git@bitbucket.org:srt-marine/mata.git
+ > git config remote.origin.url git@bitbucket.org:srt-marine/mata.git # timeout=10
+Fetching origin...
+Fetching upstream changes from origin
+ > git --version # timeout=10
+ > git --version # 'git version 2.34.1'
+ > git config --get remote.origin.url # timeout=10
+using GIT_SSH to set credentials Jenkins-BitBucket
+Verifying host key using manually-configured host key entries
+ > git fetch --tags --force --progress -- origin +refs/heads/*:refs/remotes/origin/* # timeout=10
+Seen branch in repository origin/GVC-13466-dont-show-email-addresses-in-mata
+Seen branch in repository origin/GVC-13540-target-dashboards
+Seen branch in repository origin/GVC-13871-fix-dashboard
+Seen branch in repository origin/GVC-13880-java-oom
+Seen branch in repository origin/GVC-15853-cap-usage
+Seen branch in repository origin/GVC-17332-grafana-plugins
+Seen branch in repository origin/GVC-17714-use-different-email-for-alerting
+Seen branch in repository origin/MATA-218
+Seen branch in repository origin/MATA-218-email-routing
+Seen branch in repository origin/MATA-244-mariadb-dashboard
+Seen branch in repository origin/MATA-250
+Seen branch in repository origin/MATA-250-generate-config
+Seen branch in repository origin/MATA-314-generate-json-with-sdk
+Seen branch in repository origin/MATA-331-geoserver-env-var-config
+Seen branch in repository origin/MATA-334-grafana-api
+Seen branch in repository origin/MATA-339-alert-templating
+Seen branch in repository origin/develop
+Seen 17 remote branches
+Obtained deploy/Jenkinsfile from 887447ea66cf6db6d6a9914a169ba2fd50d5a5b7
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Agent 3 (10.11.20.77) in /home/jenkins/workspace/y_MATA_MATA-339-alert-templating
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Declarative: Checkout SCM)
+[Pipeline] checkout
+Selected Git installation does not exist. Using Default
+The recommended git tool is: NONE
+using credential BitBucket
+Cloning the remote Git repository
+Cloning with configured refspecs honoured and without tags
+Cloning repository git@bitbucket.org:srt-marine/mata.git
+ > git init /home/jenkins/workspace/y_MATA_MATA-339-alert-templating # timeout=10
+Fetching upstream changes from git@bitbucket.org:srt-marine/mata.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.25.1'
+using GIT_SSH to set credentials Jenkins-BitBucket
+Verifying host key using manually-configured host key entries
+ > git fetch --no-tags --force --progress -- git@bitbucket.org:srt-marine/mata.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+Avoid second fetch
+Checking out Revision 887447ea66cf6db6d6a9914a169ba2fd50d5a5b7 (MATA-339-alert-templating)
+Commit message: "Add templating for ansible disk space rule"
+First time build. Skipping changelog.
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] withDockerRegistry
+Using the existing docker config file.
+Removing blacklisted property: auths
+$ docker login -u srtadmin -p ******** https://vmregistry.srt-development.network/
+WARNING! Using --password via the CLI is insecure. Use --password-stdin.
+
+WARNING! Your credentials are stored unencrypted in '/home/jenkins/workspace/y_MATA_MATA-339-alert-templating@tmp/fbdf3f12-660d-43b3-b2db-6245ac29977c/config.json'.
+Configure a credential helper to remove this warning. See
+https://docs.docker.com/go/credential-store/
+
+Login Succeeded
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Declarative: Agent Setup)
+[Pipeline] isUnix
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] sh
++ docker pull vmregistry.srt-development.network/geovs-shell-scripts
+Using default tag: latest
+latest: Pulling from geovs-shell-scripts
+c158987b0551: Already exists
+6c576728f938: Pulling fs layer
+3555b4fae5d9: Pulling fs layer
+24040f59011b: Pulling fs layer
+fd46f8df960f: Pulling fs layer
+ce961d46b5e3: Pulling fs layer
+fd46f8df960f: Waiting
+ce961d46b5e3: Waiting
+24040f59011b: Verifying Checksum
+24040f59011b: Download complete
+fd46f8df960f: Verifying Checksum
+fd46f8df960f: Download complete
+ > git config remote.origin.url git@bitbucket.org:srt-marine/mata.git # timeout=10
+ > git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 887447ea66cf6db6d6a9914a169ba2fd50d5a5b7 # timeout=10
+3555b4fae5d9: Verifying Checksum
+3555b4fae5d9: Download complete
+ce961d46b5e3: Verifying Checksum
+6c576728f938: Verifying Checksum
+6c576728f938: Download complete
+6c576728f938: Pull complete
+3555b4fae5d9: Pull complete
+24040f59011b: Pull complete
+fd46f8df960f: Pull complete
+ce961d46b5e3: Pull complete
+Digest: sha256:5b11b9f5fc568850def00776dffec6aeccf0f876f40ad317df756c2ee4c61029
+Status: Downloaded newer image for vmregistry.srt-development.network/geovs-shell-scripts:latest
+vmregistry.srt-development.network/geovs-shell-scripts:latest
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] isUnix
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] sh
++ docker inspect -f . vmregistry.srt-development.network/geovs-shell-scripts
+.
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] withDockerContainer
+Agent 3 (10.11.20.77) does not seem to be running inside a container
+$ docker run -t -d -u 1002:1002 -w /home/jenkins/workspace/y_MATA_MATA-339-alert-templating -v /home/jenkins/workspace/y_MATA_MATA-339-alert-templating:/home/jenkins/workspace/y_MATA_MATA-339-alert-templating:rw,z -v /home/jenkins/workspace/y_MATA_MATA-339-alert-templating@tmp:/home/jenkins/workspace/y_MATA_MATA-339-alert-templating@tmp:rw,z -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** vmregistry.srt-development.network/geovs-shell-scripts cat
+$ docker top c35e12aaf6d91325e1e8917ad34ab6b4ccbc236616a2a6ff74ddbe7b98c7279d -eo pid,comm
+[Pipeline] {
+[Pipeline] withCredentials
+Masking supported pattern matches of $SSH_KEY or $SSH_KEY_PSW
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Unit Tests (Alert Rules))
+[Pipeline] sh
++ source deploy/bom.env
++ MATA_GRAFANA_IMAGE_TAG=11.3.0
++ MATA_PROMETHEUS_IMAGE_TAG=2.53.0
++ NODE_EXPORTER_IMAGE_TAG=1.7.0
++ BLACKBOX_EXPORTER_IMAGE_TAG=0.27.0
++ CADVISOR_IMAGE_TAG=0.47.2
++ LOKI_IMAGE_TAG=3.2.0
++ PROMTAIL_IMAGE_TAG=3.0.0
++ MATA_HTTP_DISCOVERER=develop-1
++ MATA_ALERTMANAGER_IMAGE_TAG=0.27.0
++ MATA_POSTFIX_IMAGE_TAG=4.3.0
++ MATA_PYROSCOPE_IMAGE_TAG=1.9.1
++ MATA_TEMPO_IMAGE_TAG=2.8.2
++ MATA_ANSIBLE_IMAGE_TAG=latest
++ pwd
++ basename conf/prometheus-rule-files/test/disk-consumption.test.yml
++ docker run --rm -v /home/jenkins/workspace/y_MATA_MATA-339-alert-templating:/prometheus '--entrypoint=promtool' vmregistry.srt-development.network/prom/prometheus:2.53.0 test rules /prometheus/conf/prometheus-rule-files/test/disk-consumption.test.yml
+Unable to find image 'vmregistry.srt-development.network/prom/prometheus:2.53.0' locally
+2.53.0: Pulling from prom/prometheus
+9fa9226be034: Pulling fs layer
+1617e25568b2: Pulling fs layer
+3ecda1bfd07b: Pulling fs layer
+ac9f4de4b762: Pulling fs layer
+ea63b2e6315f: Pulling fs layer
+fbd390d3bd00: Pulling fs layer
+9b1ac15ef728: Pulling fs layer
+8682f304eb80: Pulling fs layer
+5fbafe078afc: Pulling fs layer
+7fb53fd2ae10: Pulling fs layer
+592798bd3683: Pulling fs layer
+473fdc983780: Pulling fs layer
+ac9f4de4b762: Waiting
+ea63b2e6315f: Waiting
+fbd390d3bd00: Waiting
+592798bd3683: Waiting
+473fdc983780: Waiting
+9b1ac15ef728: Waiting
+8682f304eb80: Waiting
+5fbafe078afc: Waiting
+7fb53fd2ae10: Waiting
+1617e25568b2: Download complete
+9fa9226be034: Download complete
+9fa9226be034: Pull complete
+1617e25568b2: Pull complete
+ea63b2e6315f: Download complete
+fbd390d3bd00: Verifying Checksum
+fbd390d3bd00: Download complete
+3ecda1bfd07b: Verifying Checksum
+3ecda1bfd07b: Download complete
+9b1ac15ef728: Verifying Checksum
+9b1ac15ef728: Download complete
+5fbafe078afc: Download complete
+3ecda1bfd07b: Pull complete
+8682f304eb80: Verifying Checksum
+8682f304eb80: Download complete
+7fb53fd2ae10: Download complete
+473fdc983780: Verifying Checksum
+473fdc983780: Download complete
+592798bd3683: Download complete
+ac9f4de4b762: Verifying Checksum
+ac9f4de4b762: Download complete
+ac9f4de4b762: Pull complete
+ea63b2e6315f: Pull complete
+fbd390d3bd00: Pull complete
+9b1ac15ef728: Pull complete
+8682f304eb80: Pull complete
+5fbafe078afc: Pull complete
+7fb53fd2ae10: Pull complete
+592798bd3683: Pull complete
+473fdc983780: Pull complete
+Digest: sha256:b8e8cec4bfdfda676f4334f4f2aab9d8758f51d76ac41fc35224f6ae79b79f54
+Status: Downloaded newer image for vmregistry.srt-development.network/prom/prometheus:2.53.0
+Unit Testing:  /prometheus/conf/prometheus-rule-files/test/disk-consumption.test.yml
+  SUCCESS
+
++ pwd
++ basename conf/prometheus-rule-files/test/rabbit-queues-growing.test.yml
++ docker run --rm -v /home/jenkins/workspace/y_MATA_MATA-339-alert-templating:/prometheus '--entrypoint=promtool' vmregistry.srt-development.network/prom/prometheus:2.53.0 test rules /prometheus/conf/prometheus-rule-files/test/rabbit-queues-growing.test.yml
+Unit Testing:  /prometheus/conf/prometheus-rule-files/test/rabbit-queues-growing.test.yml
+  SUCCESS
+
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Generate Alertmanager Rules)
+[Pipeline] sh
++ source deploy/bom.env
++ MATA_GRAFANA_IMAGE_TAG=11.3.0
++ MATA_PROMETHEUS_IMAGE_TAG=2.53.0
++ NODE_EXPORTER_IMAGE_TAG=1.7.0
++ BLACKBOX_EXPORTER_IMAGE_TAG=0.27.0
++ CADVISOR_IMAGE_TAG=0.47.2
++ LOKI_IMAGE_TAG=3.2.0
++ PROMTAIL_IMAGE_TAG=3.0.0
++ MATA_HTTP_DISCOVERER=develop-1
++ MATA_ALERTMANAGER_IMAGE_TAG=0.27.0
++ MATA_POSTFIX_IMAGE_TAG=4.3.0
++ MATA_PYROSCOPE_IMAGE_TAG=1.9.1
++ MATA_TEMPO_IMAGE_TAG=2.8.2
++ MATA_ANSIBLE_IMAGE_TAG=latest
++ pwd
++ docker run --rm -v /home/jenkins/workspace/y_MATA_MATA-339-alert-templating:/workspace -w /workspace vmregistry.srt-development.network/prom/ansible:latest ansible-playbook ansible/disk_space_playbook.yaml -i localhost, -c local
+Unable to find image 'vmregistry.srt-development.network/prom/ansible:latest' locally
+latest: Pulling from prom/ansible
+1e309a8d04d3: Pulling fs layer
+bae14577c88b: Pulling fs layer
+6e52b22c1de5: Pulling fs layer
+0ee1edc16d7d: Pulling fs layer
+4f4fb700ef54: Pulling fs layer
+13729f7cb472: Pulling fs layer
+c09cc398aca0: Pulling fs layer
+212f360271ac: Pulling fs layer
+4c95cf9dbb99: Pulling fs layer
+5bc05960505f: Pulling fs layer
+0ee1edc16d7d: Waiting
+827d9c0b79b9: Pulling fs layer
+bef129c6b302: Pulling fs layer
+23ad9d04d7e0: Pulling fs layer
+622a5b6f1539: Pulling fs layer
+212f360271ac: Waiting
+4c95cf9dbb99: Waiting
+5bc05960505f: Waiting
+827d9c0b79b9: Waiting
+4f4fb700ef54: Waiting
+bef129c6b302: Waiting
+23ad9d04d7e0: Waiting
+13729f7cb472: Waiting
+c09cc398aca0: Waiting
+3e1ed450a344: Pulling fs layer
+622a5b6f1539: Waiting
+3e1ed450a344: Waiting
+bae14577c88b: Verifying Checksum
+bae14577c88b: Download complete
+6e52b22c1de5: Verifying Checksum
+6e52b22c1de5: Download complete
+4f4fb700ef54: Verifying Checksum
+4f4fb700ef54: Download complete
+13729f7cb472: Verifying Checksum
+13729f7cb472: Download complete
+c09cc398aca0: Verifying Checksum
+c09cc398aca0: Download complete
+1e309a8d04d3: Verifying Checksum
+1e309a8d04d3: Download complete
+212f360271ac: Download complete
+4c95cf9dbb99: Verifying Checksum
+4c95cf9dbb99: Download complete
+827d9c0b79b9: Verifying Checksum
+827d9c0b79b9: Download complete
+bef129c6b302: Verifying Checksum
+bef129c6b302: Download complete
+5bc05960505f: Verifying Checksum
+5bc05960505f: Download complete
+622a5b6f1539: Download complete
+23ad9d04d7e0: Verifying Checksum
+23ad9d04d7e0: Download complete
+1e309a8d04d3: Pull complete
+bae14577c88b: Pull complete
+6e52b22c1de5: Pull complete
+0ee1edc16d7d: Verifying Checksum
+0ee1edc16d7d: Download complete
+0ee1edc16d7d: Pull complete
+4f4fb700ef54: Pull complete
+13729f7cb472: Pull complete
+c09cc398aca0: Pull complete
+212f360271ac: Pull complete
+4c95cf9dbb99: Pull complete
+5bc05960505f: Pull complete
+827d9c0b79b9: Pull complete
+bef129c6b302: Pull complete
+23ad9d04d7e0: Pull complete
+622a5b6f1539: Pull complete
+3e1ed450a344: Verifying Checksum
+3e1ed450a344: Download complete
+3e1ed450a344: Pull complete
+Digest: sha256:cb1d06fe3937faf2aae3cca3e27091a02e8655afc3637360bc4eea32675e26cd
+Status: Downloaded newer image for vmregistry.srt-development.network/prom/ansible:latest
+
+PLAY [Render MATA disk space alert rules] **************************************
+
+TASK [Render disk space rules from template] ***********************************
+[WARNING]: Host 'localhost' is using the discovered Python interpreter at '/usr/bin/python3.13', but future installation of another Python interpreter could cause a different interpreter to be discovered. See https://docs.ansible.com/ansible-core/2.20/reference_appendices/interpreter_discovery.html for more information.
+changed: [localhost]
+
+PLAY RECAP *********************************************************************
+localhost                  : ok=1    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Check Alertmanager)
+[Pipeline] sh
++ source deploy/bom.env
++ MATA_GRAFANA_IMAGE_TAG=11.3.0
++ MATA_PROMETHEUS_IMAGE_TAG=2.53.0
++ NODE_EXPORTER_IMAGE_TAG=1.7.0
++ BLACKBOX_EXPORTER_IMAGE_TAG=0.27.0
++ CADVISOR_IMAGE_TAG=0.47.2
++ LOKI_IMAGE_TAG=3.2.0
++ PROMTAIL_IMAGE_TAG=3.0.0
++ MATA_HTTP_DISCOVERER=develop-1
++ MATA_ALERTMANAGER_IMAGE_TAG=0.27.0
++ MATA_POSTFIX_IMAGE_TAG=4.3.0
++ MATA_PYROSCOPE_IMAGE_TAG=1.9.1
++ MATA_TEMPO_IMAGE_TAG=2.8.2
++ MATA_ANSIBLE_IMAGE_TAG=latest
++ pwd
++ docker run --rm -v /home/jenkins/workspace/y_MATA_MATA-339-alert-templating:/alertmanager '--entrypoint=amtool' vmregistry.srt-development.network/prom/alertmanager:0.27.0 check-config /etc/alertmanager/alertmanager.yml
+Unable to find image 'vmregistry.srt-development.network/prom/alertmanager:0.27.0' locally
+0.27.0: Pulling from prom/alertmanager
+9fa9226be034: Already exists
+1617e25568b2: Already exists
+e769c9462d1b: Pulling fs layer
+697c2f9afe54: Pulling fs layer
+27aac892fbe9: Pulling fs layer
+5c5751833485: Pulling fs layer
+4f4fb700ef54: Pulling fs layer
+5c5751833485: Waiting
+4f4fb700ef54: Waiting
+27aac892fbe9: Verifying Checksum
+27aac892fbe9: Download complete
+5c5751833485: Verifying Checksum
+5c5751833485: Download complete
+4f4fb700ef54: Verifying Checksum
+4f4fb700ef54: Download complete
+e769c9462d1b: Verifying Checksum
+e769c9462d1b: Download complete
+e769c9462d1b: Pull complete
+697c2f9afe54: Verifying Checksum
+697c2f9afe54: Download complete
+697c2f9afe54: Pull complete
+27aac892fbe9: Pull complete
+5c5751833485: Pull complete
+4f4fb700ef54: Pull complete
+Digest: sha256:45c3a586d4332d710bef92b06e90380c0b1f588968c00100d4b5e4e44c40ca5f
+Status: Downloaded newer image for vmregistry.srt-development.network/prom/alertmanager:0.27.0
+Checking '/etc/alertmanager/alertmanager.yml'  SUCCESS
+Found:
+ - global config
+ - route
+ - 1 inhibit rules
+ - 1 receivers
+ - 0 templates
+
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Deploy)
+Stage "Deploy" skipped due to when conditional
+[Pipeline] getContext
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // withCredentials
+[Pipeline] }
+$ docker stop --time=1 c35e12aaf6d91325e1e8917ad34ab6b4ccbc236616a2a6ff74ddbe7b98c7279d
+$ docker rm -f --volumes c35e12aaf6d91325e1e8917ad34ab6b4ccbc236616a2a6ff74ddbe7b98c7279d
+[Pipeline] // withDockerContainer
+[Pipeline] }
+[Pipeline] // withDockerRegistry
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS
