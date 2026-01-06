@@ -1,0 +1,42 @@
+groups:
+  - name: default
+    rules:
+
+{% for env in environments %}
+      - alert: DiskSpaceDraining_{{ env.host | replace('.', '_') }}
+        expr: |
+          node_filesystem_free_bytes{device!="lxcfs", instance="{{ env.host }}"} /
+          node_filesystem_size_bytes{device!="lxcfs", instance="{{ env.host }}"}
+          < {{ env.threshold }}
+        for: 1h
+        labels:
+          severity: {{ env.severity }}
+          host: {{ env.host }}
+        annotations:
+          summary: "Disk Space Draining ({{ env.host }})"
+          description: >
+            Disk ${labels.mountpoint} has fallen under
+            {{ (env.threshold * 100) | int }}% on host {{ env.host }}.
+{% endfor %}
+
+      # ---------------------------
+      # Catch-all rule for any other host
+      # ---------------------------
+      - alert: DiskSpaceDraining_Default
+        expr: |
+          node_filesystem_free_bytes{
+            device!="lxcfs",
+            instance!~"{{ environments | map(attribute='host') | join('|') }}"
+          } /
+          node_filesystem_size_bytes{
+            device!="lxcfs",
+            instance!~"{{ environments | map(attribute='host') | join('|') }}"
+          }
+          < 0.20
+        for: 1h
+        labels:
+          severity: warning
+        annotations:
+          summary: "Disk Space Draining (catch-all)"
+          description: >
+            Disk ${labels.mountpoint} has fallen under 20% on host {{ '{{ $labels.instance }}' }}.
