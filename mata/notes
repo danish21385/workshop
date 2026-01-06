@@ -6,5 +6,7 @@ docker tag ghcr.io/ansible/community-ansible-dev-tools:latest <srt marine regist
 
 docker push <srt marine registry>/ghcr.io/ansible/community-ansible-dev-tools:latest
 
-
+#reset branch
+git fetch origin
 git reset --hard origin/your-branch-name
+git clean -fd
