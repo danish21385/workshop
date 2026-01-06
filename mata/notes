@@ -5,3 +5,6 @@ docker pull ghcr.io/ansible/community-ansible-dev-tools:latest
 docker tag ghcr.io/ansible/community-ansible-dev-tools:latest <srt marine registry>/ghcr.io/ansible/community-ansible-dev-tools:latest
 
 docker push <srt marine registry>/ghcr.io/ansible/community-ansible-dev-tools:latest
+
+
+git reset --hard origin/your-branch-name
