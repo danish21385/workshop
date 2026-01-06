@@ -1,0 +1,45 @@
+groups:
+  - name: default
+    rules:
+      - alert: DiskSpaceDraining_abbie-ncc1_srt-development_network
+        expr: |
+          node_filesystem_free_bytes{device!="lxcfs", instance="abbie-ncc1.srt-development.network"} /
+          node_filesystem_size_bytes{device!="lxcfs", instance="abbie-ncc1.srt-development.network"}
+          < 0.2
+        for: 1h
+        labels:
+          severity: warning
+          host: abbie-ncc1.srt-development.network
+        annotations:
+          summary: "Disk Space Draining (abbie-ncc1.srt-development.network)"
+          description: >
+            Disk ${labels.mountpoint} has fallen under
+            20% on host abbie-ncc1.srt-development.network.
+      - alert: DiskSpaceDraining_gale-rcc1_srt-development_network
+        expr: |
+          node_filesystem_free_bytes{device!="lxcfs", instance="gale-rcc1.srt-development.network"} /
+          node_filesystem_size_bytes{device!="lxcfs", instance="gale-rcc1.srt-development.network"}
+          < 0.15
+        for: 1h
+        labels:
+          severity: warning
+          host: gale-rcc1.srt-development.network
+        annotations:
+          summary: "Disk Space Draining (gale-rcc1.srt-development.network)"
+          description: >
+            Disk ${labels.mountpoint} has fallen under
+            15% on host gale-rcc1.srt-development.network.
+      - alert: DiskSpaceDraining_gale-ndc1_srt-development_network
+        expr: |
+          node_filesystem_free_bytes{device!="lxcfs", instance="gale-ndc1.srt-development.network"} /
+          node_filesystem_size_bytes{device!="lxcfs", instance="gale-ndc1.srt-development.network"}
+          < 0.15
+        for: 1h
+        labels:
+          severity: warning
+          host: gale-ndc1.srt-development.network
+        annotations:
+          summary: "Disk Space Draining (gale-ndc1.srt-development.network)"
+          description: >
+            Disk ${labels.mountpoint} has fallen under
+            15% on host gale-ndc1.srt-development.network.
