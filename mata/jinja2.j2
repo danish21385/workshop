@@ -1,0 +1,48 @@
+groups:
+  - name: default
+    rules:
+{% for env in environments %}
+      - alert: DiskSpaceDraining_{{ env.host | replace('.', '_') }}
+        expr: |
+          node_filesystem_free_bytes{device!="lxcfs", instance="{{ env.host }}"} /
+          node_filesystem_size_bytes{device!="lxcfs", instance="{{ env.host }}"}
+          < {{ env.threshold | default(alert_defaults.disk.warning_free_ratio) }}
+        for: {{ alert_defaults.disk.for }}
+        labels:
+          severity: {{ env.severity | default('warning') }}
+          host: {{ env.host }}
+{% for k, v in alert_defaults.common_labels.items() %}
+          {{ k }}: {{ v }}
+{% endfor %}
+        annotations:
+          summary: "Disk Space Draining ({{ env.host }})"
+          description: >
+            Disk ${labels.mountpoint} has fallen under
+            {{ ((env.threshold | default(alert_defaults.disk.warning_free_ratio)) * 100) | int }}%
+            on host {{ env.host }}.
+{% endfor %}
+
+
+
+--------------------------------------
+OLD
+
+groups:
+  - name: default
+    rules:
+{% for env in environments %}
+      - alert: DiskSpaceDraining_{{ env.host | replace('.', '_') }}
+        expr: |
+          node_filesystem_free_bytes{device!="lxcfs", instance="{{ env.host }}"} /
+          node_filesystem_size_bytes{device!="lxcfs", instance="{{ env.host }}"}
+          < {{ env.threshold }}
+        for: 1h
+        labels:
+          severity: {{ env.severity }}
+          host: {{ env.host }}
+        annotations:
+          summary: "Disk Space Draining ({{ env.host }})"
+          description: >
+            Disk ${labels.mountpoint} has fallen under
+            {{ (env.threshold * 100) | int }}% on host {{ env.host }}.
+{% endfor %}
