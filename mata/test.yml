@@ -1,0 +1,31 @@
+rule_files:
+  - ../output/disk_space_rules.yml
+
+tests:
+  - name: DiskSpaceDraining_Abbie_NCC1
+    interval: 5m
+
+    input_series:
+      - series: 'node_filesystem_free_bytes{instance="abbie-ncc1.srt-development.network",mountpoint="/var/lib/mysql",device="sda1"}'
+        values: 20 20 19x36
+
+      - series: 'node_filesystem_size_bytes{instance="abbie-ncc1.srt-development.network",mountpoint="/var/lib/mysql",device="sda1"}'
+        values: 100x38
+
+    alert_rule_test:
+      - alertname: DiskSpaceDraining
+        # Condition becomes true at 10m
+        # for: 1h + 5m interval → fires at 75m
+        eval_time: 75m
+
+        exp_alerts:
+          - exp_labels:
+              alertname: DiskSpaceDraining
+              instance: abbie-ncc1.srt-development.network
+              mountpoint: /var/lib/mysql
+              device: sda1
+              severity: warning
+              host: abbie-ncc1.srt-development.network
+
+            exp_annotations:
+              summary: "Disk Space Draining (abbie-ncc1.srt-development.network)"
