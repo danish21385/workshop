@@ -1,7 +1,13 @@
-environments:
+node_config:
   - host: abbie-ncc1.srt-development.network
-    threshold: 0.30
+    threshold: 0.25   # override from 0.20 to 0.25
+
   - host: gale-rcc1.srt-development.network
-    threshold: 0.15
+    alert_configuration:
+      disk_space:
+        threshold: 0.18   # override from 0.20 to 0.18
+
   - host: gale-ncc1.srt-development.network
-    threshold: 0.15
+    alert_configuration:
+      disk_space:
+        threshold: 0.12   # override from 0.15 to 0.12
