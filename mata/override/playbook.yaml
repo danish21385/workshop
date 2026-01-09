@@ -1,0 +1,12 @@
+- name: Render MATA disk space alert rules
+  hosts: localhost
+  gather_facts: no
+  vars_files: 
+    - vars/vars.yaml         # default values
+    - override.yaml          # optional, overrides defaults
+
+  tasks:
+    - name: Render disk space rules from template
+      template:
+        src: templates/disk_rule.j2
+        dest: ../conf/prometheus-rule-files/disk_space_rules.yml
