@@ -1,12 +1,5 @@
-
 node_config:
   - host: abbie-ncc1.srt-development.network
-    threshold: 0.20 
-    severity: warning
-  
-  - host: gale-rcc1.srt-development.network
-    threshold: 0.15
-    severity: warning
     alert_configuration:
       disk_space:
         threshold: 0.20 
@@ -17,6 +10,3 @@ node_config:
       disk_space:
         threshold: 0.15
         severity: warning
-  - host: gale-ndc1.srt-development.network
-    threshold: 0.15
-    severity: warning
