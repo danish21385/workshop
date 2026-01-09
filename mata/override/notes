@@ -1,0 +1,9 @@
+
+1
+#override while running the ansible playbook
+ansible-playbook playbook.yaml -e "node_config=[{'host':'abbie','threshold':0.25}]"
+
+2
+separate  variable file for each client
+ansible-playbook playbook.yaml -e @var_client1.yaml
+
