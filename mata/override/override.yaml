@@ -1,0 +1,7 @@
+environments:
+  - host: abbie-ncc1.srt-development.network
+    threshold: 0.30
+  - host: gale-rcc1.srt-development.network
+    threshold: 0.15
+  - host: gale-ncc1.srt-development.network
+    threshold: 0.15
