@@ -12,3 +12,5 @@ an update about variable overides in ansible
 To handle variable overrides, we will create a separate variable file for each host in Ansible.
 When running the playbook, we will specify which variable file to use.
 This allows us to change thresholds for one site only, without affecting other sites.
+The playbook will be run like this:
+ansible-playbook playbook.yaml -e @kcg.yaml
