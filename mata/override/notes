@@ -11,6 +11,6 @@ ansible-playbook playbook.yaml -e @var_client1.yaml
 an update about variable overides in ansible
 To handle variable overrides, we will create a separate variable file for each host in Ansible.
 When running the playbook, we will specify which variable file to use.
-This allows us to change thresholds for one site only, without affecting other sites.
+This allows us to use different threshold values for each site
 The playbook will be run like this:
 ansible-playbook playbook.yaml -e @kcg.yaml
