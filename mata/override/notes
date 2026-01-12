@@ -7,3 +7,8 @@ ansible-playbook playbook.yaml -e "node_config=[{'host':'abbie','threshold':0.25
 separate  variable file for each client
 ansible-playbook playbook.yaml -e @var_client1.yaml
 
+
+an update about variable overides in ansible
+To handle variable overrides, we will create a separate variable file for each host in Ansible.
+When running the playbook, we will specify which variable file to use.
+This allows us to change thresholds for one site only, without affecting other sites.
