@@ -14,3 +14,18 @@ When running the playbook, we will specify which variable file to use.
 This allows us to use different threshold values for each site
 The playbook will be run like this:
 ansible-playbook playbook.yaml -e @kcg.yaml
+
+-----------------
+I like convention over configuration better.
+ 
+I'd like the playbook to look into a conventional location on the local box to see if there's an override file and, if so, use it.
+ 
+We WILL store a variable file for each site, under source control. And in normal circumstances they would be enough and contain all the configuration for that site. But we need to support unversioned overrides too
+ 
+In other words: the priority would be (top overrides bottom):
+ local var overrides file on the box "foo.bar" — not uder vcs
+default "foo.bar" configuration — under VCS
+default variables — under VCS
+ 
+Same philosophy as the current environment variables framework, where we have default, env-specific config under known-hosts and the possibility to override everything via local.env and local.guestlist on the box
+ 
