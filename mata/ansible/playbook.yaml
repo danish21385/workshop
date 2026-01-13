@@ -1,0 +1,10 @@
+- hosts: localhost
+  gather_facts: no
+  vars_files:
+    - defaults.yaml
+    - "{{ client_var_file | default(omit) }}"  # only loads if specified
+  tasks:
+    - name: Render Prometheus rules
+      template:
+        src: prometheus_rules.j2
+        dest: /tmp/prometheus_rules.yaml
