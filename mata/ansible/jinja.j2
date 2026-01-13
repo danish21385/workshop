@@ -1,0 +1,26 @@
+- name: disk_space_alerts
+  rules:
+{% for env in environments %}
+    - alert: DiskSpaceDraining{% if env.host is defined %}_{{ env.host | replace('.', '_') }}{% endif %}
+      expr: |
+        node_filesystem_free_bytes{device!="lxcfs"{% if env.host is defined %}, instance="{{ env.host }}"{% endif %}} /
+        node_filesystem_size_bytes{device!="lxcfs"{% if env.host is defined %}, instance="{{ env.host }}"{% endif %}}
+        < {{ env.threshold | default(alert_defaults.disk.warning_free_ratio) }}
+      for: {{ alert_defaults.disk.for }}
+      labels:
+        severity: {{ env.severity | default('warning') }}
+{% if env.host is defined %}
+        host: {{ env.host }}
+{% endif %}
+{% for k, v in alert_defaults.common_labels.items() %}
+        {{ k }}: {{ v }}
+{% endfor %}
+      annotations:
+        summary: "Disk Space Draining{% if env.host is defined %} ({{ env.host }}){% endif %}"
+        description: >
+          Disk ${labels.mountpoint} has fallen under
+          {{ ((env.threshold | default(alert_defaults.disk.warning_free_ratio)) * 100) | int }}%
+{% if env.host is defined %}
+          on host {{ env.host }}.
+{% endif %}
+{% endfor %}
