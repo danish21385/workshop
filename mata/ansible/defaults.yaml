@@ -1,0 +1,10 @@
+environments:
+  - threshold: 0.2    # 20% default for all Linux hosts
+    severity: warning
+
+alert_defaults:
+  disk:
+    for: "5m"
+    warning_free_ratio: 0.2
+  common_labels:
+    team: devops
