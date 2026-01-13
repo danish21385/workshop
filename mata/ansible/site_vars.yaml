@@ -1,0 +1,7 @@
+environments:
+  - host: host1.example.com
+    threshold: 0.15
+    severity: critical
+  - host: host2.example.com
+    threshold: 0.1
+    severity: warning
