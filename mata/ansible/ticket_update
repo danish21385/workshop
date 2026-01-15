@@ -15,4 +15,4 @@ ansible-playbook playbook.yaml -e @site_specific.yaml
 
 To override values inline (for example, host kcg1 with threshold=15%), run:
 
-ansible-playbook playbook.yaml -e "host=kcg1 threshold=15"
+ansible-playbook playbook.yaml -e "node_config.host1.example.com.threshold=0.20"
