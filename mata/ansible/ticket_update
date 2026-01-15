@@ -1,0 +1,18 @@
+This is the best approach I can think of.
+Ansible will create a default rule for all hosts when a site-specific variable file is not provided.
+If rules need to be applied based on site-specific thresholds, we will use site-specific variable files stored in the ansible/vars folder.
+This approach allows Ansible to apply both default and site-specific rules in a clean and controlled way.
+
+To create default rules, run:
+
+ansible-playbook playbook.yaml
+
+
+To apply site-specific rules using a variable file, run:
+
+ansible-playbook playbook.yaml -e @site_specific.yaml
+
+
+To override values inline (for example, host kcg1 with threshold=15%), run:
+
+ansible-playbook playbook.yaml -e "host=kcg1 threshold=15"
