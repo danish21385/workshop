@@ -3,3 +3,7 @@
 
 
 PATH="$PATH:/home/riya/.local/bin" ./your_makeself.run
+
+
+
+docker run --rm -u $(id -u):$(id -g) \
