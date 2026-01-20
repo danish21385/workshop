@@ -7,3 +7,17 @@ PATH="$PATH:/home/riya/.local/bin" ./your_makeself.run
 
 
 docker run --rm -u $(id -u):$(id -g) \
+
+
+
+riya@SRT-X1C-000894:~/mata/tools/ansible$ ./generate-playbook.sh 
+/home/riya/mata/ansible/disk_space_playbook.yaml: line 1: -: command not found
+/home/riya/mata/ansible/disk_space_playbook.yaml: line 2: hosts:: command not found
+/home/riya/mata/ansible/disk_space_playbook.yaml: line 3: gather_facts:: command not found
+/home/riya/mata/ansible/disk_space_playbook.yaml: line 4: vars_files:: command not found
+/home/riya/mata/ansible/disk_space_playbook.yaml: line 5: -: command not found
+/home/riya/mata/ansible/disk_space_playbook.yaml: line 8: tasks:: command not found
+/home/riya/mata/ansible/disk_space_playbook.yaml: line 9: -: command not found
+/home/riya/mata/ansible/disk_space_playbook.yaml: line 10: template:: command not found
+/home/riya/mata/ansible/disk_space_playbook.yaml: line 11: src:: command not found
+/home/riya/mata/ansible/disk_space_playbook.yaml: line 12: dest:: command not found
