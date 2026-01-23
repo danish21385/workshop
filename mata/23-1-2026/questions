@@ -1,0 +1,3 @@
+“The cleanest approach would be to run the Ansible playbooks on the site after executing the Makeself bundle.
+However, I’m also thinking it might be possible to include the playbooks as part of the bundle itself, so that running the bundle would automatically trigger them.
+I’d love to hear your thoughts on that approach.”
