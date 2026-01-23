@@ -1,3 +1,31 @@
 “The cleanest approach would be to run the Ansible playbooks on the site after executing the Makeself bundle.
 However, I’m also thinking it might be possible to include the playbooks as part of the bundle itself, so that running the bundle would automatically trigger them.
 I’d love to hear your thoughts on that approach.”
+-----------------------------------------------------------------------
+I had been thinking about this. There's many ways this can play out.
+ 
+Surely reducing the number of manual steps should be a goal.
+ 
+The two questions I ask myself are:
+ 
+#1
+The Ansible playbook runs the makeself, or the makeself (or up) runs the Ansible playbook?
+ 
+#2
+Where do we run the entrypoint from? (currently it runs from each single MATA box)
+
+I was thinking if we run everything from an environment-wide control node, we would get the minimum required amount of manual steps: only one big deployment to all MATA instances at the same time.
+ 
+This could play out like this:
+The bundle includes an Ansible docker image
+We are on The One Central Node
+Makeself unpacks everything, including the Ansible image
+Ansible is part of the makeself steps
+Ansible starts distributing the files to every MATA instances of the environment over WAN
+introduce a retry mechanism to overcome WAN shortcomings
+Eventually up is invoked on all MATA instances
+ 
+This way, theoretically, one would only need to put a MATA bundle on the central node and execute it
+ 
+We can set up a brainstorming next Monday to discuss it this is feasible and what the other options are
+ 
