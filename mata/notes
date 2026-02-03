@@ -10,3 +10,11 @@ docker push <srt marine registry>/ghcr.io/ansible/community-ansible-dev-tools:la
 git fetch origin
 git reset --hard origin/your-branch-name
 git clean -fd
+
+-----
+3 feb 26
+
+I have a shell script included in my bundle that triggers an Ansible playbook.
+I copied the bundle to Asgard, and while the bundle works, the shell script is not being triggered.
+When I check the file permissions, the owner and group are both set to 1002.
+I also tried running it with sudo, but that didn’t work either.
