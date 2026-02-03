@@ -1,0 +1,27 @@
+#!/bin/bash
+set -e
+
+# Optional ansible vars file
+VAR_FILE=${1:-}
+
+# Generate .env file
+tools/generate-env.sh
+
+# Generate Prometheus targets
+tools/prometheus/generate-prometheus-targets.sh
+
+# Generate Grafana dashboards
+tools/grafana/generate-grafana-dashboards.sh
+
+# Generate Alertmanager config
+tools/alertmanager/generate-alertmanager-config.py .env conf/alertmanager.yaml
+
+# Run the playbook generator and pass VAR_FILE
+if [[ -n "$VAR_FILE" ]]; then
+  tools/generate-playbook.sh "$VAR_FILE"
+else
+  tools/generate-playbook.sh
+fi
+
+# Start docker-compose
+docker compose up -d --remove-orphans
