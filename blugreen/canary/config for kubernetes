@@ -1,0 +1,58 @@
+you wil create two deployments
+one with stable version and one with canary/new version
+
+you will create two services for both deployments
+you will create two ingresses as follows
+
+Result
+ingress automatically routes:
+90% -> stable service
+10% -> canary service
+
+notice host in both ingress are same
+annotations are important in canary ingress
+
+# main ingress
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: myapp-main
+  namespace: prod
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: myapp.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: myapp-stable-service
+            port:
+              number: 80
+
+
+# canary ingress
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: myapp-canary
+  namespace: prod
+  annotations:
+    nginx.ingress.kubernetes.io/canary: "true"
+    nginx.ingress.kubernetes.io/canary-weight: "10"
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: myapp.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: myapp-canary-service
+            port:
+              number: 80
