@@ -1,0 +1,99 @@
+#Blue deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp-blue
+  namespace: prod
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: myapp
+      version: blue
+  template:
+    metadata:
+      labels:
+        app: myapp
+        version: blue
+    spec:
+      containers:
+      - name: myapp
+        image: nginx:1.25
+        ports:
+        - containerPort: 80
+
+# green deployment
+
+  apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp-green
+  namespace: prod
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: myapp
+      version: green
+  template:
+    metadata:
+      labels:
+        app: myapp
+        version: green
+    spec:
+      containers:
+      - name: myapp
+        image: nginx:1.26
+        ports:
+        - containerPort: 80
+
+
+
+  # service points to blue 
+
+  apiVersion: v1
+kind: Service
+metadata:
+  name: myapp-service
+  namespace: prod
+spec:
+  selector:
+    app: myapp
+    version: blue
+  ports:
+  - port: 80
+    targetPort: 80
+  type: ClusterIP
+
+
+# ingress
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: myapp-ingress
+  namespace: prod
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: myapp.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: myapp-service
+            port:
+              number: 80
+
+
+# switch traffic
+
+
+spec:
+  selector:
+    app: myapp
+    version: green   #roll back. change version to blue
